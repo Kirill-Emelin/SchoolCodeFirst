@@ -9,6 +9,7 @@ namespace SchoolCodeFirst
         public DbSet<Cabinet> Cabinets { get; set; } // Таблица кабинетов
         public DbSet<Course> Courses { get; set; } // Таблица предметов
         public DbSet<SchoolClass> SchoolClasses { get; set; } // Таблица классов
+        public DbSet<StudentCourse> StudentCourses { get; set; } // Таблица связи студентов и курсов
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -110,6 +111,19 @@ namespace SchoolCodeFirst
 
                 entity.Property(e => e.StudentCount)
                       .IsRequired();
+            });
+
+            modelBuilder.Entity<StudentCourse>(entity =>
+            {
+                entity.HasKey(sc => new { sc.StudentID, sc.CourseID });
+
+                entity.HasOne(sc => sc.Student)
+                      .WithMany(s => s.StudentCourses)
+                      .HasForeignKey(sc => sc.StudentID);
+
+                entity.HasOne(sc => sc.Course)
+                      .WithMany(c => c.StudentCourses)
+                      .HasForeignKey(sc => sc.CourseID);
             });
         }
     }

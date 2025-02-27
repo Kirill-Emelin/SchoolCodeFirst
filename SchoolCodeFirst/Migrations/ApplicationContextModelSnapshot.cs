@@ -128,6 +128,21 @@ namespace SchoolCodeFirst.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("SchoolCodeFirst.StudentCourse", b =>
+                {
+                    b.Property<int>("StudentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseID")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentID", "CourseID");
+
+                    b.HasIndex("CourseID");
+
+                    b.ToTable("StudentCourses");
+                });
+
             modelBuilder.Entity("SchoolCodeFirst.Teacher", b =>
                 {
                     b.Property<int>("TeacherID")
@@ -183,6 +198,25 @@ namespace SchoolCodeFirst.Migrations
                     b.Navigation("SchoolClass");
                 });
 
+            modelBuilder.Entity("SchoolCodeFirst.StudentCourse", b =>
+                {
+                    b.HasOne("SchoolCodeFirst.Course", "Course")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolCodeFirst.Student", "Student")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("SchoolCodeFirst.Teacher", b =>
                 {
                     b.HasOne("SchoolCodeFirst.Course", "Course")
@@ -201,12 +235,19 @@ namespace SchoolCodeFirst.Migrations
 
             modelBuilder.Entity("SchoolCodeFirst.Course", b =>
                 {
+                    b.Navigation("StudentCourses");
+
                     b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("SchoolCodeFirst.SchoolClass", b =>
                 {
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("SchoolCodeFirst.Student", b =>
+                {
+                    b.Navigation("StudentCourses");
                 });
 #pragma warning restore 612, 618
         }

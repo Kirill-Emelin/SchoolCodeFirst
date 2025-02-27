@@ -10,6 +10,7 @@
         public DateTime DateOfBirth { get; set; }
         public string Gender { get; set; }
         public SchoolClass SchoolClass { get; set; }
+        public List<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
     }
 
     // Таблица Teachers
@@ -43,6 +44,7 @@
         public Cabinet Cabinet { get; set; }
 
         public List<Teacher> Teachers { get; set; } = new List<Teacher>();
+        public List<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
     }
 
     // Таблица SchoolClasses (Классы)
@@ -53,5 +55,15 @@
         public int StudentCount { get; set; }
 
         public List<Student> Students { get; set; } = new List<Student>();
+    }
+
+    // Модель таблицы StudentCourses
+    public class StudentCourse
+    {
+        public int StudentID { get; set; }
+        public int CourseID { get; set; }
+
+        public Student Student { get; set; }
+        public Course Course { get; set; }
     }
 }

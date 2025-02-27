@@ -105,10 +105,39 @@ namespace SchoolCodeFirst.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "StudentCourses",
+                columns: table => new
+                {
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    CourseID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentCourses", x => new { x.StudentID, x.CourseID });
+                    table.ForeignKey(
+                        name: "FK_StudentCourses_Courses_CourseID",
+                        column: x => x.CourseID,
+                        principalTable: "Courses",
+                        principalColumn: "CourseID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentCourses_Students_StudentID",
+                        column: x => x.StudentID,
+                        principalTable: "Students",
+                        principalColumn: "StudentID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_CabinetID",
                 table: "Courses",
                 column: "CabinetID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentCourses_CourseID",
+                table: "StudentCourses",
+                column: "CourseID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_ClassID",
@@ -125,16 +154,19 @@ namespace SchoolCodeFirst.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "StudentCourses");
 
             migrationBuilder.DropTable(
                 name: "Teachers");
 
             migrationBuilder.DropTable(
-                name: "SchoolClasses");
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "SchoolClasses");
 
             migrationBuilder.DropTable(
                 name: "Cabinets");
